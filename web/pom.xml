@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>goodhouse</artifactId>
+        <groupId>com.pio</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>web</artifactId>
+    <packaging>jar</packaging>
+<!--添加依赖-->
+    <dependencies>
+        <dependency>
+            <groupId>com.pingan.haofang.standard</groupId>
+            <artifactId>standard-policy-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <!-- 这个配置是什么意思-->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.drore.cloud</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tuckey</groupId>
+            <artifactId>urlrewritefilter</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pingan.haofang.framework</groupId>
+            <artifactId>pinganfang-web-common</artifactId>
+            <version>1.0.0-snapshot</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>2.0.6.RELEASE</version>
+        </dependency>
+    </dependencies>
+    <profiles>
+        <profile>
+            <!-- 开发环境-->
+            <id>dev</id>
+
+        <properties>
+            <env>dev</env>
+        </properties>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <build>
+            <resources>
+                <resource>
+                <direcotry>${project.basedir}/src/main/resources</direcotry>
+                </resource>
+                <resource>
+                    <directory>${project.basedir}/src/main/profiles/${env}/conf}</directory>
+                </resource>
+            </resources>
+        </build>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <properties>
+            <env>docker</env>
+            <properties/>
+        </profile>
+    </profiles>
+
+    <build>
+        <defaultGoal>package</defaultGoal>
+        <finalName>gdsz-juece-web</finalName>
+        <outputDirectory>target/classes</outputDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>*.yml</exclude>
+                    <exclude>*.xml</exclude>
+                    <exclude>*.properties</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <!-- 在发不中添加发布信息-->
+        <plugins>
+            <plugin>
+                <groupId>p1.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dateFormat>yyyyMMddHHmmss</dateFormat>
+                    <verbose>true</verbose>
+                    <doGitDirectory>${project.basedir}/.git</doGitDirectory>
+                    <skipPoms>false</skipPoms>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <failOnNoGitDirectory>true</failOnNoGitDirectory>
+                </configuration>
+
+
+            </plugin>
+            <!-- spring boot jar 打包-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+
+
+
+            </plugin>
+
+        </plugins>
+
+
+    </build>
+
+</project>
